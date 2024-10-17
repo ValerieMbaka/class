@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fireworks</title>
+</head>
+<body>
+    <canvas>
+        <script>
+            var t = 0;
+            var c = document.querySelector('canvas');
+            var ctx = c.getContext('2d');
+            c.width = window.innerWidth;
+            c.height = window.innerHeight;
+            ctx.fillStyle = 'hsla(0, 0%, 0%, 1)';
+
+            window.addEventListener('resize', function(){
+                c.width = window.innerWidth;
+                c.height = window.innerHeight;
+            }, false);
+
+            function draw(){
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.fillStyle = 'hsla(0, 0%, 0%, .1)';
+                ctx.fillRect(0, 0, c.width, c.height);
+                var foo, i, j, r;
+                foo = Math.sin(t) * 2 * Math.PI;
+                for (i = 0; i < 400; ++i){
+                    r = 500 * Math.sin(i * foo);
+                    ctx.globalCompositeOperation = '';
+                    ctx.fillStyle = 'hsla('+ i + 32 + ', 100%, 60%, 1)';
+                    ctx.beginPath();
+                    ctx.arc(Math.sin(i) * r + (c.width / 2),
+                        Math.cos(i) * r + (c.height / 2),
+                        1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                t += 0.000010;
+                return t %= 2* Math.PI;
+            };
+
+            function run(){
+                window.requestAnimationFrame(run);
+                draw();
+            }
+
+            run();
+        </script>
+    </canvas>
+</body>
+</html>
